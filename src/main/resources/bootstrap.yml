@@ -12,3 +12,11 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
+      
+lcbo-client:
+  ribbon:
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    listOfServers: https://www.lcboapi.com
+    connectionTimeout: 5000
+    readTimeout: 5000
+    isSecure: true
