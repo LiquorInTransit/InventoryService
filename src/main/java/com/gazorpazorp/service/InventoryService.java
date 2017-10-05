@@ -25,11 +25,14 @@ public class InventoryService {
 	
 	public List<Inventory> getInventoryForProductIds(String productIds, Long quoteId) {
 		Quote quote = deliveryClient.getQuote(quoteId);
+		logger.error("Here's the quote we received: " + quote);
+		if (quote == null || quote.getPickup().getStore()==null)
+			return null;
 		
-		Long storeId = quote.getStoreId();
+		Long storeId = quote.getPickup().getStore().getId();
 		logger.info("STORE_ID: " + storeId);
 		
-		return Arrays.asList(productIds.split(",")).stream().map(prdId -> lcboClient.getInventory(storeId, prdId).getResult()).collect(Collectors.toList());
+		return Arrays.asList(productIds.split(",")).stream().map(prdId -> {logger.error("Making inventory request to: /stores/"+storeId+"/products/"+prdId+"/inventory");return lcboClient.getInventory(storeId, prdId).getResult();}).collect(Collectors.toList());
 	}
 	
 }

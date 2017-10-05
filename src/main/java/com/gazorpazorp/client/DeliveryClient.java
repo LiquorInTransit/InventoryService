@@ -10,6 +10,6 @@ import com.gazorpazorp.model.Quote;
 @FeignClient(name = "delivery-service", configuration = TokenRequestClientConfiguration.class)
 public interface DeliveryClient {
 
-	@GetMapping("/api/deliveries/quote/{id}")
+	@GetMapping("/internal/deliveries/quote/{id}")
 	public Quote getQuote(@PathVariable("id") Long id);
 }
