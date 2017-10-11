@@ -32,7 +32,10 @@ public class InventoryService {
 		Long storeId = quote.getPickup().getStore().getId();
 		logger.info("STORE_ID: " + storeId);
 		
-		return Arrays.asList(productIds.split(",")).stream().map(prdId -> {logger.error("Making inventory request to: /stores/"+storeId+"/products/"+prdId+"/inventory");return lcboClient.getInventory(storeId, prdId).getResult();}).collect(Collectors.toList());
+		return Arrays.asList(productIds.split(","))
+				.stream()
+				.map(prdId -> {logger.error("Making inventory request to: /stores/"+storeId+"/products/"+prdId+"/inventory");
+								return new Inventory(Long.parseLong(prdId), 100);/*lcboClient.getInventory(storeId, prdId).getResult();*/}).collect(Collectors.toList());
 	}
 	
 }

@@ -10,6 +10,11 @@ public class Inventory {
 	private Integer count;
 	
 	public Inventory() {}
+	public Inventory(Long productId, Integer count) {
+		this.productId = productId;
+		this.count = count;
+	}
+
 
 	@JsonAlias("product_id")
 	public Long getProductId() {
