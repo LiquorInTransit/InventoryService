@@ -12,14 +12,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
-import com.gazorpazorp.client.config.CustomOAuth2FeignRequestInterceptor;
 import com.netflix.appinfo.AmazonInfo;
-
-import feign.RequestInterceptor;
 
 @SpringBootApplication(scanBasePackages="com.gazorpazorp")
 @EnableJpaRepositories("com.gazorpazorp.repository")
@@ -36,11 +32,11 @@ public class InventoryServiceApplication {
 		SpringApplication.run(InventoryServiceApplication.class, args);
 	}
 	
-	@Bean
-	RequestInterceptor oauth2FeignRequestInterceptor(OAuth2ClientContext context) {
-		if (context == null) return null;
-		return new CustomOAuth2FeignRequestInterceptor(context);
-	}
+//	@Bean
+//	RequestInterceptor oauth2FeignRequestInterceptor(OAuth2ClientContext context) {
+//		if (context == null) return null;
+//		return new CustomOAuth2FeignRequestInterceptor(context);
+//	}
 	
 	@Bean
 	@Profile("!dev")

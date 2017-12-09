@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gazorpazorp.client.DeliveryClient;
+import com.gazorpazorp.client.LCBOClient;
 import com.gazorpazorp.model.Inventory;
 import com.gazorpazorp.model.Quote;
 
@@ -17,30 +18,22 @@ import com.gazorpazorp.model.Quote;
 public class InventoryService {
 	Logger logger = LoggerFactory.getLogger(InventoryService.class);
 
-//	@Autowired
-//	LCBOClient lcboClient;
 	@Autowired
-	ExternalClientService externalService;
+	LCBOClient lcboClient;
 	
 	@Autowired
 	DeliveryClient deliveryClient;
 	
 	public List<Inventory> getInventoryForProductIds(String productIds, Long quoteId) {
 		Quote quote = deliveryClient.getQuote(quoteId);
-		logger.error("Here's the quote we received: " + quote);
 		if (quote == null || quote.getPickup().getStore()==null)
 			return null;
 		
 		Long storeId = quote.getPickup().getStore().getId();
-		logger.info("STORE_ID: " + storeId);
 		
 		return Arrays.asList(productIds.split(","))
 				.stream()
-				.map(prdId -> {logger.error("Making inventory request to: /stores/"+storeId+"/products/"+prdId+"/inventory");
-								return /*new Inventory(Long.parseLong(prdId), 100);*/externalService.getInventory(storeId, prdId);}).collect(Collectors.toList());
-	}
-	
-	
-	
-	
+				.map(prdId -> {logger.info("Making inventory request to: /stores/"+storeId+"/products/"+prdId+"/inventory");
+								return lcboClient.getInventory(storeId, prdId).getResult();}).collect(Collectors.toList());
+	}	
 }

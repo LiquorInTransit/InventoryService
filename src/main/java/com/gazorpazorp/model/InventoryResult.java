@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class InventoryResult {
 	public InventoryResult() {}
+	public InventoryResult(Inventory result) {
+		this.result = result;
+	}
 	
 	@JsonProperty("result")
 	public Inventory result;
