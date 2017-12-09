@@ -3,6 +3,7 @@ package com.gazorpazorp.InventoryService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.commons.util.InetUtils;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
@@ -25,6 +26,7 @@ import feign.RequestInterceptor;
 @EntityScan(basePackages="com.gazorpazorp")
 @EnableEurekaClient
 @EnableFeignClients("com.gazorpazorp.client")
+@EnableCircuitBreaker
 @EnableResourceServer
 @EnableOAuth2Client
 @EnableGlobalMethodSecurity(prePostEnabled = true)

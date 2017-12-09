@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gazorpazorp.client.DeliveryClient;
-import com.gazorpazorp.client.LCBOClient;
 import com.gazorpazorp.model.Inventory;
 import com.gazorpazorp.model.Quote;
 
@@ -18,8 +17,11 @@ import com.gazorpazorp.model.Quote;
 public class InventoryService {
 	Logger logger = LoggerFactory.getLogger(InventoryService.class);
 
+//	@Autowired
+//	LCBOClient lcboClient;
 	@Autowired
-	LCBOClient lcboClient;
+	ExternalClientService externalService;
+	
 	@Autowired
 	DeliveryClient deliveryClient;
 	
@@ -35,7 +37,10 @@ public class InventoryService {
 		return Arrays.asList(productIds.split(","))
 				.stream()
 				.map(prdId -> {logger.error("Making inventory request to: /stores/"+storeId+"/products/"+prdId+"/inventory");
-								return new Inventory(Long.parseLong(prdId), 100);/*lcboClient.getInventory(storeId, prdId).getResult();*/}).collect(Collectors.toList());
+								return /*new Inventory(Long.parseLong(prdId), 100);*/externalService.getInventory(storeId, prdId);}).collect(Collectors.toList());
 	}
+	
+	
+	
 	
 }
